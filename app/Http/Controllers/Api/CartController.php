@@ -16,14 +16,9 @@ class CartController extends Controller
 
         $carts = auth()->user()->carts()->with('product')->get();
 
-       // If no carts found, return a message
         if ($carts->isEmpty()) {
             return response()->json(['message' => 'No items in cart'], 404);
         }
-        // $total = $carts->sum(function ($cart) {
-        //     return $cart->product->price * $cart->quantity;
-        // });
-
 
         return response()->json([
             'success' => true,
@@ -43,8 +38,7 @@ class CartController extends Controller
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
-        // Check if the product is already in the cart
-        //get authenticated user carts
+
         $user = auth()->user();
         $existingCart = $user->carts()->where('product_id', $data['product_id'])->first();
         if ($existingCart) {
@@ -119,19 +113,19 @@ class CartController extends Controller
             'message' => 'Cart item deleted successfully'
         ], 200);
     }
-    public function undo()
-    {
-        // delet all items in cart
-        $cart = auth()->user()->carts();
-        if (!$cart) {
-            return response()->json(['message' => 'Cart item not found'], 404);
-    }
-        $cart->delete();
-        return response()->json([
-            'success' => true,
-            'message' => 'All Cart items deleted successfully'
-        ], 200);
-    }
+    // public function undo()
+    // {
+    //     // delet all items in cart
+    //     $cart = auth()->user()->carts();
+    //     if (!$cart) {
+    //         return response()->json(['message' => 'Cart item not found'], 404);
+    // }
+    //     $cart->delete();
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'All Cart items deleted successfully'
+    //     ], 200);
+    // }
 
 
 }

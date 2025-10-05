@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CheckoutController;
+use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\Auth\AdminController;
 use App\Http\Controllers\Api\Auth\CustomerController;
 use App\Http\Controllers\Api\Auth\DeliveryController;
@@ -81,11 +82,14 @@ use App\Http\Controllers\Api\OrderMangementController;
 
 
 
-
     Route::middleware(['auth:sanctum','permission:create orders'])->group(function () {
 
         Route::get('order-management', [OrderMangementController::class,'index']);
         Route::get('order-management/{order}', [OrderMangementController::class,'show']);
         Route::PUT('order-management/update-status/{id}', [OrderMangementController::class,'updateStatus']);
 
+    });
+    Route::middleware(['auth:sanctum','permission:create products'])->group(function () {
+
+        Route::resource('Favorites', FavoriteController::class);
     });
